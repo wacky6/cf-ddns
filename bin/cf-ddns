@@ -22,7 +22,7 @@ let {
 
 if (!key || !user || !host) {
    process.stderr.write('key, user, domain must be provided!\n')
-   process.stderr.write('check usage with "--help"')
+   process.stderr.write('check usage with "--help"\n')
    process.exit(1)
 }
 
