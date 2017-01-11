@@ -3,9 +3,8 @@
   "version": "0.1.0",
   "description": "DDNS powered by cloudflare and ipify",
   "main": "index.js",
-  "scripts": {
-    "test": "mocha"
-  },
+  "bin": "./bin/cf-ddns",
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wacky6/cf-ddns.git"
