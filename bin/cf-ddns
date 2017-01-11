@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+
+program
+    .version('0.1.0')
+    .usage('[options]')
+    .option('-k, --key <key>',       'cloudflare API key')
+    .option('-u, --user <user>',     'cloudflare account email')
+    .option('-h, --host <host>',     'ddns host name')
+    .option('-i, --interval <itvl>', 'ip check interval, default 120s', parseInt)
+    .option('--verbose',             'verbose')
+    .parse(process.argv)
+
+let {
+    key,
+    user,
+    host,
+    interval = 120,
+    verbose
+} = program
+
+if (!key || !user || !host) {
+   process.stderr.write('key, user, domain must be provided!\n')
+   process.stderr.write('check usage with "--help"')
+   process.exit(1)
+}
+
+const Logger = require('../lib/logger')
+const CFDDNS = require('../')
+
+CFDDNS({
+   key,
+   email: user,
+   host: host,
+   interval,
+   logger: verbose ? Logger('verbose') : Logger('info')
+})
