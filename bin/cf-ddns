@@ -9,6 +9,7 @@ program
     .option('-u, --user <user>',     'cloudflare account email')
     .option('-h, --host <host>',     'ddns host name')
     .option('-i, --interval <itvl>', 'ip check interval, default 120s', parseInt)
+    .option('--endpoint <endpoint>', 'cloudflare api v4 endpoint, default https://api.cloudflare.com/client/v4')
     .option('--verbose',             'verbose')
     .parse(process.argv)
 
@@ -17,7 +18,8 @@ let {
     user,
     host,
     interval = 120,
-    verbose
+    endpoint = 'https://api.cloudflare.com/client/v4',
+    verbose,
 } = program
 
 if (!key || !user || !host) {
@@ -34,5 +36,6 @@ CFDDNS({
    email: user,
    host: host,
    interval,
+   endpoint,
    logger: verbose ? Logger('verbose') : Logger('info')
 })
