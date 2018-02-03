@@ -37,7 +37,7 @@ module.exports = function CloudflareDDNS({
         // get public ip from ipify
         try {
             ip = await ipify()
-            verbose(`  probed ip: ${ip}`)
+            verbose(`  probed: ${ip}`)
             type = ip.indexOf(':') !== -1 ? 'AAAA' : 'A'
         } catch(err) {
             return warn(`fail to get ip: ${err.message}`)
@@ -45,7 +45,7 @@ module.exports = function CloudflareDDNS({
 
         let currentRecords = await resolve(host)
         let curIp = currentRecords[type] || currentRecords['AAAA'] || currentRecords['A']
-        verbose(`resolved ip: ${curIp}`)
+        verbose(`resolved: ${curIp}`)
 
         if (curIp === ip)
             return
