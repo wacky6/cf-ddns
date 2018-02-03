@@ -31,7 +31,7 @@ if (!key || !user || !host) {
 const Logger = require('../lib/logger')
 const CFDDNS = require('../')
 
-CFDDNS({
+const cfddns = CFDDNS({
    key,
    email: user,
    host: host,
@@ -39,3 +39,5 @@ CFDDNS({
    endpoint,
    logger: verbose ? Logger('verbose') : Logger('info')
 })
+
+process.on('SIGTERM', () => cfddns.stop())
