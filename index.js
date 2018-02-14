@@ -37,7 +37,6 @@ module.exports = function CloudflareDDNS({
         // get public ip from ipify
         try {
             ip = await ipify()
-            verbose(`  probed: ${ip}`)
             type = ip.indexOf(':') !== -1 ? 'AAAA' : 'A'
         } catch(err) {
             return warn(`fail to get ip: ${err.message}`)
@@ -45,7 +44,7 @@ module.exports = function CloudflareDDNS({
 
         let currentRecords = await resolve(host)
         let curIp = currentRecords[type] || currentRecords['AAAA'] || currentRecords['A']
-        verbose(`resolved: ${curIp}`)
+        verbose(`probed / resolved: ${ip} / ${curIp}`)
 
         if (curIp === ip)
             return
@@ -60,7 +59,7 @@ module.exports = function CloudflareDDNS({
             )
 
             let zoneId = body.result[0].id
-            verbose(`zone id: ${zoneId}`)
+            verbose(`zone: ${zoneId}`)
 
             // get record identifier
             body = await api(
@@ -72,7 +71,7 @@ module.exports = function CloudflareDDNS({
             let recordId = body.result[0] ? body.result[0].id : null
             let recordAddr = body.result[0] ? body.result[0].content : null
             if (recordId) {
-                verbose(`record id: ${recordId}, addr: ${recordAddr}`)
+                verbose(`record: ${recordId}, addr: ${recordAddr}`)
             } else {
                 verbose(`no record for host`)
             }
